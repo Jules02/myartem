@@ -6,8 +6,12 @@ use App\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
+#[UniqueEntity('slug')]
+#[ORM\HasLifecycleCallbacks]
 class Student
 {
     #[ORM\Id]
@@ -32,6 +36,9 @@ class Student
      */
     #[ORM\ManyToMany(targetEntity: Association::class, inversedBy: 'members')]
     private Collection $associations;
+
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -118,5 +125,25 @@ class Student
     public function __toString(): string
     {
         return $this->firstName.' '.$this->lastName;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function computeSlug()
+    {
+        if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) explode("@", $this->getEmail())[0];
+        }
     }
 }
