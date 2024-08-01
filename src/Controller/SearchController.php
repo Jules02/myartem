@@ -40,10 +40,10 @@ class SearchController extends AbstractController
     }
 
     #[Route('/resultats/{search}', name: 'app_search_results')]
-    public function searchResults(StudentRepository $studentRepository, Request $request): Response
+    public function searchResults(StudentRepository $studentRepository, string $search): Response
     {
-        //$students = $studentRepository->findBy***($search)
-        $students = $studentRepository->findAll();
+        $students = $studentRepository->findByName($search);
+        //$students = $studentRepository->findAll();
 
         return $this->render('search/results.html.twig', [
             'students' => $students,
