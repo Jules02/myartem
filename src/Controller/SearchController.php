@@ -46,6 +46,7 @@ class SearchController extends AbstractController
         //$students = $studentRepository->findAll();
 
         return $this->render('search/results.html.twig', [
+            'search' => $search,
             'students' => $students,
         ]);
     }

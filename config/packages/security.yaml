@@ -19,7 +19,10 @@ security:
             login_link:
                 check_route: login_check
                 signature_properties: ['id']
+            logout:
+                path: /logout
 
+                target: app_search
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

@@ -9,8 +9,11 @@
     </style>
 
     <div class="example-wrapper">
+        <h1>Résultats de votre recherche</h1>
+        <p style="font-style: italic">(Étudiant) "{{ search }}" - <a href="{{ path('app_search') }}" style="font-style: normal">Modifier</a></p>
+
         {% if students is empty %}
-            <p>No students found.</p>
+            <p>Aucun résultat trouvé.</p>
         {% else %}
             <ul>
                 {% for student in students %}

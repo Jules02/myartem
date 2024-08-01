@@ -16,6 +16,12 @@
 
         <p>École: {{ student.school }}</p>
 
-        <p>Slug: {{ student.slug }}</p>
+        {% if student.associations is not empty %}
+            <ul>
+                {% for association in student.associations %}
+                    <li>{{ association.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
